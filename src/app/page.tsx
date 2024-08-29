@@ -34,7 +34,7 @@ const Landing = () => {
     },
   ];
 
-  const openModal = (party) => {
+  const openModal = (party: React.SetStateAction<null>) => {
     setSelectedParty(party);
     setIsModalOpen(true);
   };
