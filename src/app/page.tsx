@@ -2,39 +2,53 @@
 
 import React, { useState } from 'react';
 
+// Define the interface for the candidate
+interface Candidate {
+  name: string;
+  photo: string;
+  description: string;
+}
+
+// Define the interface for the party
+interface Party {
+  name: string;
+  logo: string;
+  candidate: Candidate;
+}
+
 const Landing = () => {
-  const [selectedParty, setSelectedParty] = useState(null); // State to track the selected party
+  const [selectedParty, setSelectedParty] = useState<Party | null>(null); // State to track the selected party
   const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
-  const parties = [
+  const parties: Party[] = [
     { 
       name: 'BJP', 
       logo: '/Parties/bjp.png',
-      candidate: { name: 'Narendra Modi', photo: '/Candidates/modi.jpeg', description: 'Prime Minister of India since 2014.' }
+      candidate: { name: 'Narendra Modi', photo: '/Candidates/modi.jpeg', description: 'Prime Minister of India since 2014. Yehi to real banda hai' }
     },
     { 
       name: 'Congress', 
       logo: '/Parties/congress.png',
-      candidate: { name: 'Rahul Gandhi', photo: '/Candidates/rahul.jpeg', description: 'Leader of the Indian National Congress.' }
+      candidate: { name: 'Rahul Gandhi', photo: '/Candidates/rahul.jpeg', description: 'Leader of the Indian National Congress. I dont like him' }
     },
     { 
       name: 'TMC', 
       logo: '/Parties/tmc.png',
-      candidate: { name: 'Mamata Banerjee', photo: '/Candidates/mamata.jpeg', description: 'Chief Minister of West Bengal.' }
+      candidate: { name: 'Mamata Banerjee', photo: '/Candidates/mamata.jpeg', description: 'Chief Minister of West Bengal. I dont like her' }
     },
     { 
       name: 'Samajvadi', 
       logo: '/Parties/sp.png',
-      candidate: { name: 'Akhilesh Yadav', photo: '/Candidates/akhilesh.jpeg', description: 'Former Chief Minister of Uttar Pradesh.' }
+      candidate: { name: 'Akhilesh Yadav', photo: '/Candidates/akhilesh.jpeg', description: 'Former Chief Minister of Uttar Pradesh. I dont like him' }
     },
     { 
       name: 'Bahujan Samaj Vadi', 
       logo: '/Parties/bsp.png',
-      candidate: { name: 'Mayawati', photo: '/Candidates/mayawati.jpg', description: 'Leader of the Bahujan Samaj Party.' }
+      candidate: { name: 'Mayawati', photo: '/Candidates/mayawati.jpg', description: 'Leader of the Bahujan Samaj Party. I dont like her' }
     },
   ];
 
-  const openModal = (party: React.SetStateAction<null>) => {
+  const openModal = (party: Party) => {
     setSelectedParty(party);
     setIsModalOpen(true);
   };
