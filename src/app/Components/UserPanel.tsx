@@ -4,18 +4,29 @@ import { useEffect, useState } from "react";
 import { getContract, getSigner } from "../../../utils/ethers";
 import { Overrides } from "ethers";
 
+// Define the Candidate type
+interface Candidate {
+  id: number;
+  name: string;
+  age: number;
+}
+
 const UserPanel = () => {
-  const [candidates, setCandidates] = useState([]);
-  const [hasVoted, setHasVoted] = useState(false);
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [hasVoted, setHasVoted] = useState<boolean>(false);
 
   const fetchCandidates = async () => {
     try {
       const contract = await getContract();
       const count = await contract.candidatesCount();
-      const tempCandidates = [];
+      const tempCandidates: Candidate[] = [];
       for (let i = 1; i <= count; i++) {
         const candidate = await contract.getCandidate(i);
-        tempCandidates.push(candidate);
+        tempCandidates.push({
+          id: candidate.id.toNumber(), // Adjust based on contract response
+          name: candidate.name,
+          age: candidate.age.toNumber(), // Adjust based on contract response
+        });
       }
       setCandidates(tempCandidates);
     } catch (error) {
@@ -37,17 +48,17 @@ const UserPanel = () => {
     }
   };
 
-  const voteForCandidate = async (id: any | Overrides) => {
+  const voteForCandidate = async (id: number) => {
     try {
       const contract = await getContract();
-      const tx = await contract.vote(id);
+      const tx = await contract.vote(id); // Adjust based on contract method signature
       await tx.wait();
       alert("Vote cast successfully!");
       setHasVoted(true);
       fetchCandidates();
     } catch (error) {
       console.error("Error voting:", error);
-      alert(error.message);
+      alert(error);
     }
   };
 
@@ -76,10 +87,10 @@ const UserPanel = () => {
           </thead>
           <tbody>
             {candidates.map((candidate) => (
-              <tr key={candidate.id.toString()}>
-                <td className="px-4 py-2 border">{candidate.id.toString()}</td>
+              <tr key={candidate.id}>
+                <td className="px-4 py-2 border">{candidate.id}</td>
                 <td className="px-4 py-2 border">{candidate.name}</td>
-                <td className="px-4 py-2 border">{candidate.age.toString()}</td>
+                <td className="px-4 py-2 border">{candidate.age}</td>
                 <td className="px-4 py-2 border">
                   <button
                     onClick={() => voteForCandidate(candidate.id)}
