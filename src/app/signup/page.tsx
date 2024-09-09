@@ -21,7 +21,7 @@ const addUserWithRole = async (email: string, password: string, role: string) =>
     alert(`User ${role} created successfully`);
   } catch (error) {
     console.error('Error adding user with role:', error);
-    alert(error.message);
+    alert(error);
   }
 };
 

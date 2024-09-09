@@ -3,12 +3,20 @@
 import { useEffect, useState } from "react";
 import { getContract } from "../../../utils/ethers";
 
+// Define the Candidate type
+interface Candidate {
+  id: number;
+  name: string;
+  age: number;
+  voteCount: number;
+}
+
 const AdminPanel = () => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
-  const [candidates, setCandidates] = useState([]);
+  const [candidates, setCandidates] = useState<Candidate[]>([]);
 
-  const addCandidate = async (e: { preventDefault: () => void; }) => {
+  const addCandidate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const contract = await getContract();
@@ -20,19 +28,23 @@ const AdminPanel = () => {
       fetchCandidates();
     } catch (error) {
       console.error("Error adding candidate:", error);
-      alert(error);
+      alert(error instanceof Error ? error.message : "An error occurred");
     }
   };
 
   const fetchCandidates = async () => {
     try {
       const contract = await getContract();
-      // console.log("Contract methods:", Object.keys(contract.functions)); // Log available methods
       const count = await contract.candidatesCount();
-      const tempCandidates = [];
+      const tempCandidates: Candidate[] = [];
       for (let i = 1; i <= count; i++) {
         const candidate = await contract.getCandidate(i);
-        tempCandidates.push(candidate);
+        tempCandidates.push({
+          id: candidate.id.toNumber(), // Adjust depending on your contract's return type
+          name: candidate.name,
+          age: candidate.age.toNumber(), // Adjust depending on your contract's return type
+          voteCount: candidate.voteCount.toNumber(), // Adjust depending on your contract's return type
+        });
       }
       setCandidates(tempCandidates);
     } catch (error) {
@@ -84,11 +96,11 @@ const AdminPanel = () => {
         </thead>
         <tbody>
           {candidates.map((candidate) => (
-            <tr key={candidate.id.toString()}>
-              <td className="px-4 py-2 border">{candidate.id.toString()}</td>
+            <tr key={candidate.id}>
+              <td className="px-4 py-2 border">{candidate.id}</td>
               <td className="px-4 py-2 border">{candidate.name}</td>
-              <td className="px-4 py-2 border">{candidate.age.toString()}</td>
-              <td className="px-4 py-2 border">{candidate.voteCount.toString()}</td>
+              <td className="px-4 py-2 border">{candidate.age}</td>
+              <td className="px-4 py-2 border">{candidate.voteCount}</td>
             </tr>
           ))}
         </tbody>

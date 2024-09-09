@@ -1,11 +1,15 @@
-"use client"
+"use client";
 
-// components/WalletConnection.js
-import { Wallet } from "ethers";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
 
 const WalletConnection = () => {
-  const [account, setAccount] = useState(null);
+  const [account, setAccount] = useState<string | null>(null);
 
   const connectWallet = async () => {
     if (!window.ethereum) {
@@ -24,9 +28,16 @@ const WalletConnection = () => {
 
   useEffect(() => {
     if (window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts: SetStateAction<null>[]) => {
+      const handleAccountsChanged = (accounts: string[]) => {
         setAccount(accounts[0]);
-      });
+      };
+
+      window.ethereum.on("accountsChanged", handleAccountsChanged);
+
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
+      };
     }
   }, []);
 
