@@ -1,3 +1,4 @@
+"use client"
 // app/add-user/page.tsx
 
 import { useState } from 'react';
