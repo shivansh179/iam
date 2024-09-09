@@ -40,7 +40,7 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Error logging in:", error);
-      alert(error.message);
+      alert(error);
     }
   };
 
