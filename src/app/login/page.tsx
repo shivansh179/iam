@@ -1,3 +1,6 @@
+"use client"
+
+
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../../../firebase"; // Ensure proper imports
 import { doc, getDoc } from "firebase/firestore"; // Firestore methods
