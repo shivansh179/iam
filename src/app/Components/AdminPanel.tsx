@@ -20,7 +20,7 @@ const AdminPanel = () => {
       fetchCandidates();
     } catch (error) {
       console.error("Error adding candidate:", error);
-      alert(error.message);
+      alert(error);
     }
   };
 
