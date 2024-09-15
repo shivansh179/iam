@@ -1,10 +1,9 @@
 import { useEffect, useState, ReactNode } from "react";
-import { auth } from "../../../firebase.config";
+import { auth, db } from "../../../firebase.config";
 import { onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../firebase.config"; // Firestore instance
-
+ 
 interface ProtectedRouteProps {
   children: ReactNode;
   requiredRole: string; // Add requiredRole prop
