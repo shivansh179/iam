@@ -60,7 +60,7 @@ const AdminPanel = () => {
     
   return (
     <div className="mt-8">
-      <h2 className="mb-4 text-xl">Admin Panel</h2>
+      <h2 className="mb-5 text-xl">Admin Panel</h2>
       <form onSubmit={addCandidate} className="flex flex-col max-w-md">
         <input
           type="text"
