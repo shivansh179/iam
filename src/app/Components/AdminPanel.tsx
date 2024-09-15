@@ -5,10 +5,10 @@ import { getContract } from "../../../utils/ethers";
 
 // Define the Candidate type
 interface Candidate {
-  id: number;
+  id: bigint;
   name: string;
-  age: number;
-  voteCount: number;
+  age: bigint;
+  voteCount: bigint;
 }
 
 const AdminPanel = () => {
@@ -40,10 +40,10 @@ const AdminPanel = () => {
       for (let i = 1; i <= count; i++) {
         const candidate = await contract.getCandidate(i);
         tempCandidates.push({
-          id: candidate.id.toNumber(), // Adjust depending on your contract's return type
+          id: candidate.id, // Expecting BigInt from contract
           name: candidate.name,
-          age: candidate.age.toNumber(), // Adjust depending on your contract's return type
-          voteCount: candidate.voteCount.toNumber(), // Adjust depending on your contract's return type
+          age: candidate.age, // Expecting BigInt from contract
+          voteCount: candidate.voteCount, // Expecting BigInt from contract
         });
       }
       setCandidates(tempCandidates);
@@ -56,6 +56,8 @@ const AdminPanel = () => {
     fetchCandidates();
   }, []);
 
+    console.log(candidates);
+    
   return (
     <div className="mt-8">
       <h2 className="mb-4 text-xl">Admin Panel</h2>
@@ -96,11 +98,11 @@ const AdminPanel = () => {
         </thead>
         <tbody>
           {candidates.map((candidate) => (
-            <tr key={candidate.id}>
-              <td className="px-4 py-2 border">{candidate.id}</td>
+            <tr key={candidate.id.toString()}>
+              <td className="px-4 py-2 border">{candidate.id.toString()}</td>
               <td className="px-4 py-2 border">{candidate.name}</td>
-              <td className="px-4 py-2 border">{candidate.age}</td>
-              <td className="px-4 py-2 border">{candidate.voteCount}</td>
+              <td className="px-4 py-2 border">{candidate.age.toString()}</td>
+              <td className="px-4 py-2 border">{candidate.voteCount.toString()}</td>
             </tr>
           ))}
         </tbody>
