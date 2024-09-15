@@ -2,7 +2,7 @@
 
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../../firebase"; // Ensure proper imports
+import { auth, db } from "../../../firebase.config"; // Ensure proper imports
 import { doc, getDoc } from "firebase/firestore"; // Firestore methods
 import { useRouter } from "next/navigation"; // For navigation
 import { useState } from "react";

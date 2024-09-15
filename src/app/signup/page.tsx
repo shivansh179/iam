@@ -3,8 +3,8 @@
 
 import { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../firebase'; // Adjust the path according to your project structure
-import { db } from '../../../firebase'; // Adjust the path according to your project structure
+import { auth } from '../../../firebase.config'; // Adjust the path according to your project structure
+import { db } from '../../../firebase.config'; // Adjust the path according to your project structure
 import { doc, setDoc } from 'firebase/firestore';
 
 const addUserWithRole = async (email: string, password: string, role: string) => {
