@@ -272,9 +272,10 @@ const CONTRACT_ABI = [
     }
   
 ];
+
 export const getProvider = () => {
   if (typeof window !== "undefined" && window.ethereum) {
-    return new ethers.BrowserProvider(window.ethereum);
+    return new ethers.providers.Web3Provider(window.ethereum);
   }
   throw new Error("No crypto wallet found");
 };
