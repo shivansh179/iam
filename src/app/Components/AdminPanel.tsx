@@ -31,26 +31,32 @@ const AdminPanel = () => {
       alert(error instanceof Error ? error.message : "An error occurred");
     }
   };
-
+  console.log(age);
+  
   const fetchCandidates = async () => {
     try {
       const contract = await getContract();
       const count = await contract.candidatesCount();
-      const tempCandidates: Candidate[] = [];
-      for (let i = 1; i <= count; i++) {
-        const candidate = await contract.getCandidate(i);
-        tempCandidates.push({
-          id: candidate.id, // Expecting BigInt from contract
-          name: candidate.name,
-          age: candidate.age, // Expecting BigInt from contract
-          voteCount: candidate.voteCount, // Expecting BigInt from contract
-        });
+      console.log("Candidate Count: ", count.toString());
+      
+      if (count > 0) {
+        const tempCandidates: Candidate[] = [];
+        for (let i = 1; i <= count; i++) {
+          const candidate = await contract.getCandidate(i);
+          tempCandidates.push({
+            id: candidate.id, // Expecting BigInt from contract
+            name: candidate.name,
+            age: candidate.age, // Expecting BigInt from contract
+            voteCount: candidate.voteCount, // Expecting BigInt from contract
+          });
+        }
+        setCandidates(tempCandidates);
       }
-      setCandidates(tempCandidates);
     } catch (error) {
       console.error("Error fetching candidates:", error);
     }
   };
+  
 
   useEffect(() => {
     fetchCandidates();
